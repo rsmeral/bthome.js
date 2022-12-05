@@ -1,0 +1,13 @@
+{
+  "name": "bthome",
+  "version": "0.0.1",
+  "description": "JavaScript implementation of the BTHome standard",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^4.9.3"
+  }
+}
