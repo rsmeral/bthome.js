@@ -1,42 +1,36 @@
-import {BTHomeDevice, BTHOME_SERVICE_UUID} from "./device";
-import {adElement, AdType} from "./bt";
-import {Data, stringToData} from "./data";
-import * as Sensors from "./measurements/sensor"
-import * as BinarySensors from "./measurements/binarySensor";
-import * as Events from "./measurements/event";
-import * as Misc from "./measurements/misc";
+import {BTHomeDevice, BTHOME_SERVICE_UUID} from './device';
+import {adElement, AdType} from './bt';
+import {Data, stringToData} from './data';
+import * as Sensors from './measurements/sensor';
+import * as BinarySensors from './measurements/binarySensor';
+import * as Events from './measurements/event';
+import * as Misc from './measurements/misc';
 
 // “LE General Discoverable Mode”, “BR/EDR Not Supported”
 export const BTHOME_FLAGS = [0b00000110];
 export const BTHOME_DEVICE_INFO = [0b010_0000_0];
 
 export class BTHomeEncoder {
-
   private buffer: Data = [];
 
-  constructor(public device?: BTHomeDevice) {
-  }
+  constructor(public device?: BTHomeDevice) {}
 
   private encodeAdvertisement = () => [
     ...adElement(AdType.FLAGS, BTHOME_FLAGS),
     ...(this.device?.localName ? adElement(AdType.COMPLETE_LOCAL_NAME, stringToData(this.device.localName)) : []),
-    ...adElement(AdType.SERVICE_DATA, [
-      ...BTHOME_SERVICE_UUID,
-      ...BTHOME_DEVICE_INFO,
-      ...this.buffer.flat()
-    ])
+    ...adElement(AdType.SERVICE_DATA, [...BTHOME_SERVICE_UUID, ...BTHOME_DEVICE_INFO, ...this.buffer.flat()])
   ];
 
   private sensor = ({objectId, factor, format}: Sensors.Sensor, value: number): this => {
     const data = format(Math.round(value / factor));
     this.buffer.push(objectId, ...data);
     return this;
-  }
+  };
 
   private binarySensor = ({objectId}: BinarySensors.BinarySensor, value: boolean): this => {
     this.buffer.push(objectId, value ? 1 : 0);
     return this;
-  }
+  };
 
   private event = ({objectId, eventId}: Events.Event, value?: number): this => {
     this.buffer.push(objectId, eventId);
@@ -44,15 +38,18 @@ export class BTHomeEncoder {
       this.buffer.push(value);
     }
     return this;
-  }
+  };
 
   private misc = ({objectId}: Misc.Misc, value: number): this => {
     this.buffer.push(objectId, value);
     return this;
-  }
+  };
 
   asArray = () => this.encodeAdvertisement();
-  asHexString = () => this.encodeAdvertisement().map(b => `0${b.toString(16)}`.slice(-2)).join('');
+  asHexString = () =>
+    this.encodeAdvertisement()
+      .map((b) => `0${b.toString(16)}`.slice(-2))
+      .join('');
 
   battery = (value: number): this => this.sensor(Sensors.Battery, value);
   co2 = (value: number): this => this.sensor(Sensors.Co2, value);
