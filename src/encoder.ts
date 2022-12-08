@@ -1,19 +1,20 @@
-import {BTHomeDevice, BTHOME_SERVICE_UUID} from './device';
 import {adElement, AdType} from './bt';
 import {Data, stringToData} from './data';
 import * as Sensors from './measurements/sensor';
 import * as BinarySensors from './measurements/binarySensor';
 import * as Events from './measurements/event';
 import * as Misc from './measurements/misc';
+import {BTHomeDeviceProps} from './types';
 
 // “LE General Discoverable Mode”, “BR/EDR Not Supported”
 export const BTHOME_FLAGS = [0b00000110];
 export const BTHOME_DEVICE_INFO = [0b010_0000_0];
+export const BTHOME_SERVICE_UUID = [0xd2, 0xfc];
 
 export class BTHomeEncoder {
   private buffer: Data = [];
 
-  constructor(public device?: BTHomeDevice) {}
+  constructor(public device?: BTHomeDeviceProps) {}
 
   private encodeAdvertisement = () => [
     ...adElement(AdType.FLAGS, BTHOME_FLAGS),
