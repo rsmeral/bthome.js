@@ -1,12 +1,13 @@
 {
   "name": "bthome",
   "version": "0.0.1",
-  "description": "JavaScript implementation of the BTHome standard",
+  "description": "JavaScript encoder for the BTHome standard",
   "scripts": {
-    "test": "ava"
+    "test": "ava",
+    "build": "rollup -c"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Ron Smeral",
+  "license": "MIT",
   "devDependencies": {
     "@rollup/plugin-terser": "^0.2.0",
     "@rollup/plugin-typescript": "^10.0.1",
