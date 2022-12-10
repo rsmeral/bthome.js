@@ -10,7 +10,7 @@ const config = {
     file: 'dist/index.js',
     format: 'cjs'
   },
-  plugins: [typescript(), terser({compress: true})]
+  plugins: [typescript({compilerOptions: {module: 'ESNext'}}), terser({compress: true})]
 };
 
 module.exports = config;
