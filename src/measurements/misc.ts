@@ -1,5 +1,9 @@
-export type Misc = {
-  objectId: number;
-};
+import {Data} from '../data';
 
-export const PacketId: Misc = {objectId: 0x00};
+const misc =
+  (id: number) =>
+  (value: number): Data => {
+    return [id, value % 256];
+  };
+
+export const packetId = misc(0x00);

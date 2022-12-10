@@ -1,10 +1,5 @@
-import {BTHomeEncoder} from './encoder';
-import {BTHomeDeviceProps} from './types';
-
-export class BTHomeDevice {
-  constructor(public props?: BTHomeDeviceProps) {}
-
-  encode = () => {
-    return new BTHomeEncoder(this.props);
-  };
-}
+export * from './btHome';
+export * from './measurements/sensor';
+export * from './measurements/binarySensor';
+export * from './measurements/event';
+export * from './measurements/misc';

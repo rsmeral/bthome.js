@@ -1,38 +1,38 @@
-import {Int16, UInt16, UInt24, UInt32, UInt8} from '../data';
-import {NumberType} from '../data';
+import {NumberType, Data, UInt16, UInt8, UInt32, Int16, UInt24} from '../data';
 
-export type Sensor = {
-  objectId: number;
-  format: NumberType;
-  factor: number;
-};
+const sensor =
+  (objectId: number, format: NumberType, factor: number) =>
+  (value: number): Data => {
+    const data = format(Math.round(value / factor));
+    return [objectId, ...data];
+  };
 
-export const Battery: Sensor = {objectId: 0x01, format: UInt16, factor: 1};
-export const Co2: Sensor = {objectId: 0x12, format: UInt16, factor: 1};
-export const Count: Sensor = {objectId: 0x09, format: UInt8, factor: 1};
-export const Count16: Sensor = {objectId: 0x3d, format: UInt16, factor: 1};
-export const Count32: Sensor = {objectId: 0x3e, format: UInt32, factor: 1};
-export const Current: Sensor = {objectId: 0x43, format: UInt16, factor: 0.001};
-export const Dewpoint: Sensor = {objectId: 0x08, format: Int16, factor: 0.01};
-export const DistanceMillimeters: Sensor = {objectId: 0x40, format: UInt16, factor: 1};
-export const DistanceMeters: Sensor = {objectId: 0x41, format: UInt16, factor: 0.1};
-export const Duration: Sensor = {objectId: 0x42, format: UInt24, factor: 0.001};
-export const Energy: Sensor = {objectId: 0x0a, format: UInt24, factor: 0.001};
-export const Humidity: Sensor = {objectId: 0x2e, format: UInt8, factor: 1};
-export const Humidity16: Sensor = {objectId: 0x03, format: UInt16, factor: 0.01};
-export const Illuminance: Sensor = {objectId: 0x05, format: UInt24, factor: 0.01};
-export const MassKg: Sensor = {objectId: 0x06, format: UInt16, factor: 0.01};
-export const MassLb: Sensor = {objectId: 0x07, format: UInt16, factor: 0.01};
-export const Moisture: Sensor = {objectId: 0x2f, format: UInt8, factor: 1};
-export const Moisture16: Sensor = {objectId: 0x14, format: UInt16, factor: 0.01};
-export const Pm25: Sensor = {objectId: 0x0d, format: UInt16, factor: 1};
-export const Pm10: Sensor = {objectId: 0x0e, format: UInt16, factor: 1};
-export const Power: Sensor = {objectId: 0x0b, format: UInt24, factor: 0.01};
-export const Pressure: Sensor = {objectId: 0x04, format: UInt24, factor: 0.01};
-export const Rotation: Sensor = {objectId: 0x3f, format: Int16, factor: 0.1};
-export const Speed: Sensor = {objectId: 0x44, format: UInt16, factor: 0.01};
-export const Temperature: Sensor = {objectId: 0x02, format: Int16, factor: 0.01};
-export const Temperature10: Sensor = {objectId: 0x45, format: Int16, factor: 0.1};
-export const Tvoc: Sensor = {objectId: 0x13, format: UInt16, factor: 1};
-export const Voltage: Sensor = {objectId: 0x0c, format: UInt16, factor: 0.001};
-export const UVIndex: Sensor = {objectId: 0x46, format: UInt8, factor: 0.1};
+export const battery = sensor(0x01, UInt16, 1);
+export const co2 = sensor(0x12, UInt16, 1);
+export const count = sensor(0x09, UInt8, 1);
+export const count16 = sensor(0x3d, UInt16, 1);
+export const count32 = sensor(0x3e, UInt32, 1);
+export const current = sensor(0x43, UInt16, 0.001);
+export const dewpoint = sensor(0x08, Int16, 0.01);
+export const distanceMillimeters = sensor(0x40, UInt16, 1);
+export const distanceMeters = sensor(0x41, UInt16, 0.1);
+export const duration = sensor(0x42, UInt24, 0.001);
+export const energy = sensor(0x0a, UInt24, 0.001);
+export const humidity = sensor(0x2e, UInt8, 1);
+export const humidity16 = sensor(0x03, UInt16, 0.01);
+export const illuminance = sensor(0x05, UInt24, 0.01);
+export const massKg = sensor(0x06, UInt16, 0.01);
+export const massLb = sensor(0x07, UInt16, 0.01);
+export const moisture = sensor(0x2f, UInt8, 1);
+export const moisture16 = sensor(0x14, UInt16, 0.01);
+export const pm25 = sensor(0x0d, UInt16, 1);
+export const pm10 = sensor(0x0e, UInt16, 1);
+export const power = sensor(0x0b, UInt24, 0.01);
+export const pressure = sensor(0x04, UInt24, 0.01);
+export const rotation = sensor(0x3f, Int16, 0.1);
+export const speed = sensor(0x44, UInt16, 0.01);
+export const temperature = sensor(0x02, Int16, 0.01);
+export const temperature10 = sensor(0x45, Int16, 0.1);
+export const tvoc = sensor(0x13, UInt16, 1);
+export const voltage = sensor(0x0c, UInt16, 0.001);
+export const uvIndex = sensor(0x46, UInt8, 0.1);
