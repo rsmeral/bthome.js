@@ -7,7 +7,7 @@ const sensor =
     return [objectId, ...data];
   };
 
-export const battery = sensor(0x01, UInt16, 1);
+export const battery = sensor(0x01, UInt8, 1);
 export const co2 = sensor(0x12, UInt16, 1);
 export const count = sensor(0x09, UInt8, 1);
 export const count16 = sensor(0x3d, UInt16, 1);
