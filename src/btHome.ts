@@ -22,6 +22,18 @@ const BTHOME_DEVICE_INFO = 0b010_0000_0;
 
 const BTHOME_PREAMBLE = BTHOME_SERVICE_UUID.concat(BTHOME_DEVICE_INFO);
 
+const encodeAdvertisement = (preamble: Data, data: Data[]): Data => {
+  const ad: Data = [];
+  append(ad, preamble);
+
+  const adData: Data = [];
+  append(adData, BTHOME_PREAMBLE);
+  data.forEach((datum) => append(adData, datum));
+
+  append(ad, adElement(AD_SERVICE_DATA, adData));
+  return ad;
+};
+
 export class BTHomeDevice {
   /**
    * Constant bytes that sent before each advertisement.
@@ -36,19 +48,7 @@ export class BTHomeDevice {
     }
   }
 
-  private encodeAdvertisement = (data: Data[]): Data => {
-    const ad: Data = [];
-    append(ad, this.adPreamble);
-
-    const adData: Data = [];
-    append(adData, BTHOME_PREAMBLE);
-    data.forEach((datum) => append(adData, datum));
-
-    append(ad, adElement(AD_SERVICE_DATA, adData));
-    return ad;
-  };
-
   encode = (data: Data[]): Data => {
-    return this.encodeAdvertisement(data);
+    return encodeAdvertisement(this.adPreamble, data);
   };
 }
