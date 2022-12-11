@@ -4,7 +4,8 @@
   "description": "JavaScript encoder for the BTHome standard",
   "scripts": {
     "test": "ava",
-    "build": "rollup -c"
+    "build": "tsc",
+    "build:espruino": "rollup -c rollup.espruino.js"
   },
   "author": "Ron Smeral",
   "license": "MIT",

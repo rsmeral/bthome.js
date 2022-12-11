@@ -7,7 +7,7 @@ const terser = require('@rollup/plugin-terser');
 const config = {
   input: 'src/index.ts',
   output: {
-    file: 'dist/index.js',
+    file: 'dist-espruino/index.js',
     format: 'cjs'
   },
   plugins: [typescript({compilerOptions: {module: 'ESNext'}}), terser({compress: true})]

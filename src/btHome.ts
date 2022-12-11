@@ -1,5 +1,5 @@
 import {adElement, AD_FLAGS, AD_COMPLETE_LOCAL_NAME, AD_SERVICE_DATA} from './bt';
-import {Data, stringToData} from './data';
+import {append, Data, stringToData} from './data';
 
 /**
  * * LE General Discoverable Mode
@@ -20,14 +20,33 @@ const BTHOME_SERVICE_UUID = [0xd2, 0xfc];
  */
 const BTHOME_DEVICE_INFO = 0b010_0000_0;
 
-export class BTHomeDevice {
-  constructor(public localName?: string) {}
+const BTHOME_PREAMBLE = BTHOME_SERVICE_UUID.concat(BTHOME_DEVICE_INFO);
 
-  private encodeAdvertisement = (data: Data[]) => [
-    ...adElement(AD_FLAGS, [BTHOME_FLAGS]),
-    ...(this.localName ? adElement(AD_COMPLETE_LOCAL_NAME, stringToData(this.localName)) : []),
-    ...adElement(AD_SERVICE_DATA, [...BTHOME_SERVICE_UUID, BTHOME_DEVICE_INFO, ...data.flat()])
-  ];
+export class BTHomeDevice {
+  /**
+   * Constant bytes that sent before each advertisement.
+   */
+  private adPreamble: Data;
+
+  constructor(localName?: string) {
+    this.adPreamble = adElement(AD_FLAGS, [BTHOME_FLAGS]);
+
+    if (localName) {
+      append(this.adPreamble, adElement(AD_COMPLETE_LOCAL_NAME, stringToData(localName)));
+    }
+  }
+
+  private encodeAdvertisement = (data: Data[]): Data => {
+    const ad: Data = [];
+    append(ad, this.adPreamble);
+
+    const adData: Data = [];
+    append(adData, BTHOME_PREAMBLE);
+    data.forEach((datum) => append(adData, datum));
+
+    append(ad, adElement(AD_SERVICE_DATA, adData));
+    return ad;
+  };
 
   encode = (data: Data[]): Data => {
     return this.encodeAdvertisement(data);
