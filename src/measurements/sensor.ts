@@ -4,7 +4,7 @@ const sensor =
   (objectId: number, format: NumberType, factor: number) =>
   (value: number): Data => {
     const data = format(Math.round(value / factor));
-    return [objectId, ...data];
+    return [objectId].concat(data);
   };
 
 export const battery = sensor(0x01, UInt8, 1);
