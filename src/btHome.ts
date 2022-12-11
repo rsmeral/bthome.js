@@ -29,7 +29,7 @@ export class BTHomeDevice {
     ...adElement(AD_SERVICE_DATA, [...BTHOME_SERVICE_UUID, BTHOME_DEVICE_INFO, ...data.flat()])
   ];
 
-  encode = (...data: Data[]): Data => {
+  encode = (data: Data[]): Data => {
     return this.encodeAdvertisement(data);
   };
 }
