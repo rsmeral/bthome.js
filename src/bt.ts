@@ -12,4 +12,4 @@ type AdType = typeof AD_FLAGS | typeof AD_COMPLETE_LOCAL_NAME | typeof AD_SERVIC
  * Advertising Data format
  * See 11. Advertising and Scan Response Data Format of https://www.bluetooth.com/specifications/specs/core-specification-5-3/
  */
-export const adElement = (type: AdType, data: Data): Data => [data.length + 1, type, ...data];
+export const adElement = (type: AdType, data: Data): Data => [data.length + 1, type].concat(data);
