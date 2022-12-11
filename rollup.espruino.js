@@ -10,7 +10,7 @@ const config = {
     file: 'dist-espruino/index.js',
     format: 'cjs'
   },
-  plugins: [typescript({compilerOptions: {module: 'ESNext'}}), terser({compress: true})]
+  plugins: [typescript({compilerOptions: {module: 'ESNext'}})]
 };
 
 module.exports = config;
